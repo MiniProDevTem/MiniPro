@@ -4,14 +4,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.context.WebApplicationContext;
-
 import com.minipro.entity.JSONResult;
 import com.minipro.util.JsonUtil;
 
 public class AbstractController {
-
-	protected static final String RESPONSE_DATA_KEY = "data";
 
 	public String invokeService(String namespace, String name) {
 		return invokeService(namespace, name, null);
@@ -32,18 +28,7 @@ public class AbstractController {
 			param = "{}";
 		} 
 		String result=null;
-		try {
-			result = invokeLocal(namespace, name, param);
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		result = invokeLocal(namespace, name, param);
 		if (result==null) {
 			JSONResult rst=new JSONResult();
 			rst.fail("出错");
@@ -53,7 +38,7 @@ public class AbstractController {
 		
 	}
 	
-	private String invokeLocal(String namespace, String name, String param) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	private String invokeLocal(String namespace, String name, String param)  {
 		if (namespace==null) {
 			return null;
 		}
@@ -89,7 +74,7 @@ public class AbstractController {
 		List<Object> args = new ArrayList<Object>();
 		
 		try {
-			
+			//此处可做权限控制
 			// find the user
 			for (Class<?> clazz : method.getParameterTypes()) {
 //				if (clazz.equals(Admin.class)) {

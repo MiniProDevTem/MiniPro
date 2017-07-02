@@ -31,4 +31,5 @@ public interface BaseDao {
 	
 	public Set<Object> differ(String key,String otherkey);//交集
 	
+	public boolean isExit(String key,String sonkey);
 }

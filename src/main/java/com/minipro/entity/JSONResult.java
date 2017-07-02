@@ -9,17 +9,17 @@ public class JSONResult {
 	final static String LOGIN="login";
 	final static String SUCCESS="success";
 	final static String FAIL="fail";
-	private HashMap data =new HashMap();
+	private HashMap<String,Object> data =new HashMap<String,Object>();
 	
 	private String result=FAIL;
 	
 	private String message;
 	
-	public HashMap getData() {
+	public HashMap<String,Object> getData() {
 		return data;
 	}
 
-	public void setData(HashMap data) {
+	public void setData(HashMap<String,Object> data) {
 		this.data = data;
 	}
 	
@@ -56,6 +56,9 @@ public class JSONResult {
 		this.result = result;
 	}
 
+	public void put(String key,Object obj){
+		data.put(key, obj);
+	}
 	public String toJson(){
 		String result=JsonUtil.toJson(this);
 		return result;

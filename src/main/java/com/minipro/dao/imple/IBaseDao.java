@@ -138,6 +138,20 @@ public class IBaseDao implements BaseDao {
 		T t=(T) redisTemplate.opsForHash().get(key, sonkey);
 		return t;
 	}
+
+	@Override
+	public boolean isExit(String key,String sonkey) {
+		DataType type = redisTemplate.type(key);
+		if (DataType.NONE == type) {
+			return false;
+		} else if(DataType.SET==type){
+			return redisTemplate.opsForSet().isMember(key, sonkey);
+		}else if(DataType.ZSET==type){
+			return redisTemplate.opsForZSet().score(key, sonkey)==null?false:true;
+		}else{
+			return false;
+		}
+	}
 	
 	
 }
