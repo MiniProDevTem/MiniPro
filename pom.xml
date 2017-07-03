@@ -23,7 +23,7 @@
 	</dependency>  
 	<!-- spring-redis -->  
 	<dependency>  
-	    <groupId>org.springframework.data</groupId>  
+	    <groupId>org.springframework.data</groupId>
 	    <artifactId>spring-data-redis</artifactId>  
 	    <version>1.0.0.RELEASE</version>  
 	</dependency> 

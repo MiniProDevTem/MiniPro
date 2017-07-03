@@ -2,3 +2,6 @@
 target
 .classpath
 .project
+.idea/
+.idea/artifacts/springMvc_war_exploded.xml
+springMVC.iml
