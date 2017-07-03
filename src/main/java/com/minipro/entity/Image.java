@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class Image implements Serializable,Comparable<Image>{
 	
     private static final long serialVersionUID = -6014241320070993952L;
-
     private String url;
     private long timestamp;
 	public String getUrl() {

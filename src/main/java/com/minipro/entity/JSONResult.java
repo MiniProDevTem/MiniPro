@@ -10,11 +10,8 @@ public class JSONResult {
 	final static String SUCCESS="success";
 	final static String FAIL="fail";
 	private HashMap<String,Object> data =new HashMap<String,Object>();
-	
 	private String result=FAIL;
-	
 	private String message;
-	
 	public HashMap<String,Object> getData() {
 		return data;
 	}
