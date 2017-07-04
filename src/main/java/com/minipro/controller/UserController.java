@@ -1,5 +1,9 @@
 package com.minipro.controller;
 
+import com.minipro.entity.User;
+import com.minipro.service.UserService;
+import com.minipro.service.param.OpenIDParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +19,7 @@ public class UserController extends AbstractController{
 		String data="{\"openId\":\""+openId+"\"}";
 		return invokeService("user","isExit",data);
 	}
-	
+
 	@RequestMapping("/create")
 	@ResponseBody
 	public String createUser(@RequestParam(value="data",required=true)String data){

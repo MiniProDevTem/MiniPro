@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.minipro.conf.ErrorConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +35,7 @@ public class UserService extends AbstractService {
 		JSONResult rst=new JSONResult();
 		rst.fail();
 		if(openIdParam==null){
-			rst.fail("参数有误");
+			rst.fail(ErrorConfig.INVALIDPARAM,"用户未登录","invalid parameter: openid is null");
 			return rst;
 		}
 		String uuid=baseDao.selectFromHash(MAPPERHASH, openIdParam.getOpenId(), String.class);
@@ -54,18 +56,20 @@ public class UserService extends AbstractService {
 		rst.fail();
 		
 		if(createUserParam==null){
-			rst.fail("参数有误，请检查参数！");
+			rst.fail();
 			return rst;
 		}
 		
 		String uuid=baseDao.selectFromHash(MAPPERHASH, createUserParam.getOpenId(), String.class);
-		if(uuid!=null){//表示该用户第一次登陆
-			rst.fail("该用户已注册，无需再次注册！");
+		if(uuid != null){//表示该用户第一次登陆
+			String cause = String.format("user identified by openID: %d is registered, corresponding uuid is %d",createUserParam.getOpenId(),uuid);
+			rst.fail(ErrorConfig.INVALIDPARAM, "用户已经注册", cause);
 			return rst;
 		}
 		
-	    uuid=BaseUtil.getUUID(createUserParam.getOpenId());
+//	    uuid = BaseUtil.getUUID();
 	    User user=new User();
+	    user.setUuid(BaseUtil.getUUID());
 	    UpdateUtil.setValues(user, createUserParam);//赋值
 		//此处应该放入到一个事务当中
 	    baseDao.insertHash(MAPPERHASH, user.getOpenId(), user.getUuid());
@@ -81,13 +85,15 @@ public class UserService extends AbstractService {
 		rst.fail();
 		
 		if(updateUserParam==null){
-			rst.fail("参数有误，请检查参数！");
+			String cause = String.format("invalid request parameter, the parameter is %s",updateUserParam.toString());
+			rst.fail(ErrorConfig.INVALIDPARAM, "invalid operation", "invalid request parameter, ");
 			return rst;
 		}
 		
 		User user=baseDao.selectFromHash(HASHKEY, updateUserParam.getUuid(),User.class);
 		if(user==null){//该用户不存在
-			rst.fail("该用户不存在");
+			String cause = String.format("%s correspoding user is not found",updateUserParam.getUuid());
+			rst.fail(ErrorConfig.NOTFOUND, "用户不存在", cause);
 			return rst;
 		}
 		
@@ -104,25 +110,29 @@ public class UserService extends AbstractService {
 		rst.fail();
 		
 		if(markUserParam==null){
-			rst.fail("参数有误，请检查参数！");
+			String cause = String.format("invalid request parameter, the parameter is %s",markUserParam.toString());
+			rst.fail(ErrorConfig.INVALIDPARAM, "invalid operation", "invalid request parameter, ");
 			return rst;
 		}
 		
 		User user=baseDao.selectFromHash(HASHKEY, markUserParam.getUuid(),User.class);
 		if(user==null){//该用户不存在
-			rst.fail("该用户不存在");
+			String cause = String.format("%s corresponding user is not found", markUserParam.getUuid());
+			rst.fail(ErrorConfig.INVALIDPARAM, "用户不存在", "invalid request parameter, ");
 			return rst;
 		}
 		user=baseDao.selectFromHash(HASHKEY, markUserParam.getOuuid(),User.class);
 		if(user==null){//该用户不存在
-			rst.fail("目标用户不存在");
+			String cause = String.format("%s corresponding user is not found", markUserParam.getUuid());
+			rst.fail(ErrorConfig.INVALIDPARAM, "用户不存在", "invalid request parameter, ");
 			return rst;
 		}
 		boolean result=false;
 		if(!markUserParam.isLike()){//标记为不喜欢
 			result=baseDao.isExit(ULVZSET+markUserParam.getUuid(), markUserParam.getOuuid());
 			if(result){
-				rst.fail("目标用户已被您标记为不喜欢！");
+				String cause = String.format("%s corresponding user is not found", markUserParam.getUuid());
+				rst.fail(ErrorConfig.INVALIDPARAM, "目标用户已被您标记为不喜欢！", "invalid request parameter, ");
 			}else{
 				baseDao.insertSortSet(ULVZSET+markUserParam.getUuid(),  markUserParam.getOuuid(), BaseUtil.getTimeStamp());
 				rst.success();
@@ -132,7 +142,9 @@ public class UserService extends AbstractService {
 		//判断该用户的喜欢人列表是否已存在目标用户
 	    result=baseDao.isExit(LVZSET+markUserParam.getUuid(), markUserParam.getOuuid());
 		if(result){
-			rst.fail("目标用户已被您标记为喜欢！");
+			String cause = String.format("%s corresponding user is not found", markUserParam.getUuid());
+			rst.fail(ErrorConfig.INVALIDPARAM, "目标用户已被您标记为喜欢", "invalid request parameter, ");
+			rst.fail();
 			return rst;
 		}
 		baseDao.insertSortSet(LVZSET+markUserParam.getUuid(), markUserParam.getOuuid(), BaseUtil.getTimeStamp());
@@ -153,13 +165,15 @@ public class UserService extends AbstractService {
 		rst.fail();
 		
 		if(idParam==null){
-			rst.fail("参数有误，请检查参数！");
+			String cause = String.format("%s corresponding user is not found", idParam.getUuid());
+			rst.fail(ErrorConfig.INVALIDPARAM, "目标用户已被您标记为喜欢", "invalid request parameter, ");
 			return rst;
 		}
 		
 		User user=baseDao.selectFromHash(HASHKEY, idParam.getUuid(),User.class);
 		if(user==null){//该用户不存在
-			rst.fail("该用户不存在");
+			String cause = String.format("%s corresponding user is not found", idParam.getUuid());
+			rst.fail(ErrorConfig.INVALIDPARAM, "用户不存在", "invalid request parameter, ");
 			return rst;
 		}
 
@@ -182,13 +196,15 @@ public class UserService extends AbstractService {
 		rst.fail();
 		
 		if(idParam==null){
-			rst.fail("参数有误，请检查参数！");
+			String cause = String.format("invalid request parameter %s", idParam.toString());
+			rst.fail(ErrorConfig.INVALIDPARAM, "操作错误", cause);
 			return rst;
 		}
 		
 		User user=baseDao.selectFromHash(HASHKEY, idParam.getUuid(),User.class);
 		if(user==null){//该用户不存在
-			rst.fail("该用户不存在");
+			String cause = String.format("%s corresponding user is not found", idParam.getUuid());
+			rst.fail(ErrorConfig.INVALIDPARAM, "用户不存在", "invalid request parameter, ");
 			return rst;
 		}
 		
@@ -202,13 +218,15 @@ public class UserService extends AbstractService {
 		rst.fail();
 		
 		if(imageParam==null){
-			rst.fail("参数有误，请检查参数！");
+			String cause = String.format("invalid request parameter %s", imageParam.toString());
+			rst.fail(ErrorConfig.INVALIDPARAM, "操作错误", cause);
 			return rst;
 		}
 		
 		User user=baseDao.selectFromHash(HASHKEY, imageParam.getUuid(),User.class);
 		if(user==null){//该用户不存在
-			rst.fail("该用户不存在");
+			String cause = String.format("%s corresponding user is not found", imageParam.getUuid());
+			rst.fail(ErrorConfig.INVALIDPARAM, "用户不存在", "invalid request parameter, ");
 			return rst;
 		}
 		Image image=new Image();
@@ -226,13 +244,15 @@ public class UserService extends AbstractService {
 		rst.fail();
 		
 		if(imageParam==null){
-			rst.fail("参数有误，请检查参数！");
+			String cause = String.format("invalid request parameter %s", imageParam.toString());
+			rst.fail(ErrorConfig.INVALIDPARAM, "操作错误", cause);
 			return rst;
 		}
 		
 		User user=baseDao.selectFromHash(HASHKEY, imageParam.getUuid(),User.class);
 		if(user==null){//该用户不存在
-			rst.fail("该用户不存在");
+			String cause = String.format("%s corresponding user is not found", imageParam.getUuid());
+			rst.fail(ErrorConfig.INVALIDPARAM, "用户不存在", "invalid request parameter, ");
 			return rst;
 		}
 		Image image=null;

@@ -1,5 +1,6 @@
 package com.minipro.entity;
 
+import java.text.Format;
 import java.util.HashMap;
 
 import com.minipro.util.JsonUtil;
@@ -24,8 +25,8 @@ public class JSONResult {
 		result=FAIL;
 	}
 	
-	public void fail(String message){
-		result=FAIL;
+	public void fail(int errorCode, String simpleMessage, String cause) {
+		String message = String.format("ErrorCode: %d, %s \n%s",errorCode, simpleMessage, cause);
 		this.message=message;
 	}
 	

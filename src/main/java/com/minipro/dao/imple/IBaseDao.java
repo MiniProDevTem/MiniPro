@@ -19,7 +19,7 @@ public class IBaseDao implements BaseDao {
 	public boolean insertString(String key, String value) {
 		try{
 			redisTemplate.opsForValue().set(key, value);
-			return false;
+			return true;
 		}catch (Exception e) {  
             return false;  
         }  
