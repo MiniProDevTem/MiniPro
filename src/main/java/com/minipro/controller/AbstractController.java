@@ -112,8 +112,8 @@ public class AbstractController {
 				jsonResult = (JSONResult)method.invoke(service, args.get(0), args.get(1), args.get(2));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			jsonResult.fail();
+			String cause = String.format("call method error,%s", e.toString());
+			jsonResult.fail(ErrorConfig.SERVERERROR,"服务内部错误，请稍后重试", cause);
 			return jsonResult.toJson();
 		}
 		return jsonResult.toJson();

@@ -1,5 +1,6 @@
 package com.minipro.controller;
 
+import com.minipro.Authentication.AccessRequired;
 import com.minipro.entity.User;
 import com.minipro.service.UserService;
 import com.minipro.service.param.OpenIDParam;
@@ -22,24 +23,28 @@ public class UserController extends AbstractController{
 
 	@RequestMapping("/create")
 	@ResponseBody
+    @AccessRequired
 	public String createUser(@RequestParam(value="data",required=true)String data){
 		return invokeService("user","createUser",data);
 	}
 	
 	@RequestMapping("/updateInfo")
 	@ResponseBody
+    @AccessRequired
 	public String updateUser(@RequestParam(value="data",required=true)String data){
 		return invokeService("user","updateUser",data);
 	}
 	
 	@RequestMapping("/mark")
 	@ResponseBody
+    @AccessRequired
 	public String markUser(@RequestParam(value="data",required=true)String data){
 		return invokeService("user","mark",data);
 	}
 	
 	@RequestMapping("/getContacts")
 	@ResponseBody
+    @AccessRequired
 	public String getContacts(@RequestParam(value="uuid",required=true)String uuid){
 		String data="{\"uuid\":\""+uuid+"\"}";
 		return invokeService("user","getContacts",data);
@@ -47,6 +52,7 @@ public class UserController extends AbstractController{
 	
 	@RequestMapping("/contactDetail")
 	@ResponseBody
+    @AccessRequired
 	public String contactDetail(@RequestParam(value="uuid",required=true)String uuid){
 		String data="{\"uuid\":\""+uuid+"\"}";
 		return invokeService("user","contactDetail",data);
@@ -54,6 +60,7 @@ public class UserController extends AbstractController{
 	
 	@RequestMapping("/getDetail")
 	@ResponseBody
+    @AccessRequired
 	public String getDetail(@RequestParam(value="uuid",required=true)String uuid){
 		String data="{\"uuid\":\""+uuid+"\"}";
 		return invokeService("user","contactDetail",data);
@@ -61,12 +68,14 @@ public class UserController extends AbstractController{
 	
 	@RequestMapping("/uploadImage")
 	@ResponseBody
+    @AccessRequired
 	public String uploadImage(@RequestParam(value="data",required=true)String data){
 		return invokeService("user","uploadImage",data);
 	}
 	
 	@RequestMapping("/delImage")
 	@ResponseBody
+    @AccessRequired
 	public String delImage(@RequestParam(value="data",required=true)String data){
 		return invokeService("user","delImage",data);
 	}
