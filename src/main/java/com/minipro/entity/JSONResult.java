@@ -26,6 +26,7 @@ public class JSONResult {
 	}
 	
 	public void fail(int errorCode, String simpleMessage, String cause) {
+		result = FAIL;
 		String message = String.format("ErrorCode: %d, %s \n%s",errorCode, simpleMessage, cause);
 		this.message=message;
 	}

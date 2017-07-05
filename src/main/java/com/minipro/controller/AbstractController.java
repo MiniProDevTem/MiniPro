@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.minipro.conf.ErrorConfig;
 import com.minipro.entity.JSONResult;
 import com.minipro.util.JsonUtil;
 
@@ -31,7 +32,8 @@ public class AbstractController {
 		result = invokeLocal(namespace, name, param);
 		if (result==null) {
 			JSONResult rst=new JSONResult();
-			rst.fail("出错");
+			String cause = String.format("nothing return on invoke %s.%s(%s)",namespace, name, param);
+			rst.fail(ErrorConfig.SERVERERROR,"请求失败",cause);
 			result = rst.toJson();
 		}
 		return result;
@@ -92,7 +94,7 @@ public class AbstractController {
 //				}else{
 					Object p = JsonUtil.toObject(param, clazz);
 					if (p == null){
-						jsonResult.fail("参数有误");
+						jsonResult.fail(ErrorConfig.INVALIDPARAM,"invalid operation", "invalid request parameters");
 						return jsonResult.toJson();
 					}
 					args.add(p);
