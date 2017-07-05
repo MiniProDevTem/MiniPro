@@ -7,7 +7,7 @@ import java.util.List;
 public class User implements Serializable {
 
     private static final long serialVersionUID = -6011241820070393952L;
-
+    
     private String uuid;//唯一标识
     private String openId;//来自QQ
     private String name;
@@ -15,16 +15,22 @@ public class User implements Serializable {
     private String birthday;
     private String sex;
     private String location;
-    private String qqNumber;
     private String headUrl;
     private String voiceUrl;
     private int age;
-    private String level;
+    private String levl;
     private String star;
-    private String match;
+    private String matching;
     private String qq;
     
-    List<Image>images;
+    private double trankRate;
+    private double warriorRate;
+    private double assassinRate;
+    private double masterRate;
+    private double shooterRate;
+    private double auxiliaryRate;
+    
+    private String images;
     
 	public String getOpenId() {
 		return openId;
@@ -73,15 +79,6 @@ public class User implements Serializable {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
-	public String getQqNumber() {
-		return qqNumber;
-	}
-
-	public void setQqNumber(String qqNumber) {
-		this.qqNumber = qqNumber;
-	}
-
 	public String getHeadUrl() {
 		return headUrl;
 	}
@@ -105,13 +102,12 @@ public class User implements Serializable {
 	public void setAge(int age) {
 		this.age = age;
 	}
-
-	public String getLevel() {
-		return level;
+	
+	public String getLevl() {
+		return levl;
 	}
-
-	public void setLevel(String level) {
-		this.level = level;
+	public void setLevl(String levl) {
+		this.levl = levl;
 	}
 
 	public String getStar() {
@@ -121,13 +117,12 @@ public class User implements Serializable {
 	public void setStar(String star) {
 		this.star = star;
 	}
-
-	public String getMatch() {
-		return match;
+	
+	public String getMatching() {
+		return matching;
 	}
-
-	public void setMatch(String match) {
-		this.match = match;
+	public void setMatching(String matching) {
+		this.matching = matching;
 	}
 
 	public String getUuid() {
@@ -137,12 +132,11 @@ public class User implements Serializable {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-
-	public List<Image> getImages() {
+	
+	public String getImages() {
 		return images;
 	}
-
-	public void setImages(List<Image> images) {
+	public void setImages(String images) {
 		this.images = images;
 	}
 
@@ -152,6 +146,45 @@ public class User implements Serializable {
 
 	public void setQq(String qq) {
 		this.qq = qq;
+	}
+	public double getTrankRate() {
+		return trankRate;
+	}
+	public void setTrankRate(double trankRate) {
+		this.trankRate = trankRate;
+	}
+	public double getWarriorRate() {
+		return warriorRate;
+	}
+	public void setWarriorRate(double warriorRate) {
+		this.warriorRate = warriorRate;
+	}
+	public double getAssassinRate() {
+		return assassinRate;
+	}
+	public void setAssassinRate(double assassinRate) {
+		this.assassinRate = assassinRate;
+	}
+	public double getMasterRate() {
+		return masterRate;
+	}
+	public void setMasterRate(double masterRate) {
+		this.masterRate = masterRate;
+	}
+	public double getShooterRate() {
+		return shooterRate;
+	}
+	public void setShooterRate(double shooterRate) {
+		this.shooterRate = shooterRate;
+	}
+	public double getAuxiliaryRate() {
+		return auxiliaryRate;
+	}
+	public void setAuxiliaryRate(double auxiliaryRate) {
+		this.auxiliaryRate = auxiliaryRate;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 }

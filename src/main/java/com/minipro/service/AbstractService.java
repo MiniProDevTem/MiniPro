@@ -9,5 +9,9 @@ public class AbstractService {
 	protected final static String LVDZSET="lvdset";//喜欢你的人列表
 	protected final static String ULVZSET="ulvzset";//不喜欢人的列表
 	protected final static String CONNECTZSET="connectzset";//联系人列表
+	
+	protected final static int OFFSET =100;
+	
+	protected final static int NUMSOFPUSH=20;
 
 }

@@ -152,6 +152,12 @@ public class IBaseDao implements BaseDao {
 			return false;
 		}
 	}
+
+	@Override
+	public Object getRandomFromSet(String key) {
+		Object result=redisTemplate.opsForSet().randomMember(key);
+		return result;
+	}
 	
 	
 }

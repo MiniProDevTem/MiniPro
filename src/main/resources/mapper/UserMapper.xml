@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minipro.mapper.UserMapper">
+
+	<resultMap type="Hero" id="heroMap">
+     	<result column="id" property="id"/>
+      	<result column="hname" property="hname"/>
+      	<result column="location" property="location"/>
+	</resultMap>
+    <resultMap type="UserGameView" id="basicMap">
+      	<result column="hero_id" property="heroId"/>
+        <result column="uuid" property="uuid"/>
+        <result column="hname" property="hname"/>
+        <result column="name" property="name" />
+        <result column="time_use" property="timeUse"/>
+        <result column="win_rate" property="winRate"/>
+        <result column="place" property="place" />
+        <result column="birthday" property="birthday" />
+        <result column="location" property="location" />
+        <result column="head_url" property="headUrl" />
+        <result column="voice_url" property="voiceUrl" />
+        <result column="age" property="age" />
+        <result column="levl" property="levl" />
+        <result column="star" property="star" />
+        <result column="matching" property="matching" />
+        <result column="qq" property="qq" />
+    </resultMap>
+  
+    <resultMap type="User" id="userMap">
+        <result column="uuid" property="uuid" />
+        <result column="open_id" property="openId" />
+        <result column="name" property="name" />
+        <result column="place" property="place" />
+        <result column="birthday" property="birthday" />
+        <result column="location" property="location" />
+        <result column="head_url" property="headUrl" />
+        <result column="voice_url" property="voiceUrl" />
+        <result column="age" property="age" />
+        <result column="levl" property="levl" />
+        <result column="star" property="star" />
+        <result column="matching" property="matching" />
+        <result column="qq" property="qq" />
+        <result column="trank_rate" property="trankRate" />
+        <result column="warrior_rate" property="warriorRate" />
+        <result column="assassin_rate" property="assassinRate" />
+        <result column="master_rate" property="masterRate" />
+        <result column="shooter_rate" property="shooterRate" />
+        <result column="auxiliary_rate" property="auxiliaryRate" />
+        <result column="images" property="images"/>
+    </resultMap>
+    
+    <resultMap id="ulistMap" type="SUser">
+    	 <result column="uuid" property="uuid" />
+    	 <result column="name" property="name" />
+    	 <result column="sex" property="sex" />
+    	 <result column="head_url" property="headUrl" />
+    </resultMap>
+    
+    
+    <select id="countHero" resultType="java.lang.Integer" >
+    	select cout(*) from hero
+    </select>
+    
+    <select id="getHeroList" resultMap="heroMap">
+       select * from hero order by id
+    </select>
+    
+     <select id ="getChooseUuid"  parameterType="RecommendSearchCriteria" resultType="java.lang.String">
+    	
+		select uuid from user 
+		<where>
+			 uuid not in 
+	       <foreach item="item" index="index" collection="removeSets" open="(" separator="," close=")">  
+  					#{item} 
+  			</foreach> 
+	    	 <if test="sex !=null" > 
+ 	           user.sex=#{sex} 
+	    	</if> 
+	    	 <if test="ageMin!=null">
+	           AND user.age <![CDATA[>=]]> #{ageMin}
+	        </if>
+	        <if test="ageMax !=null">
+	           AND user.age <![CDATA[<=]]> #{ageMax}
+	        </if> 
+	        <if test="trank !=null">
+	            AND user.trank_rate <![CDATA[<=]]>0.1
+	       </if>
+	        <if test="warrior !=null">
+	            AND user.warrior_rate <![CDATA[<=]]>0.1
+	       </if> 
+	       <if test="assassin !=null">
+	            AND user.assassin_rate <![CDATA[<=]]>0.1
+	       </if>
+	        <if test="master !=null">
+	            AND user.master_rate <![CDATA[<=]]>0.1
+	       </if>
+	        <if test="shooter !=null">
+	            AND user.shooter_rate <![CDATA[<=]]>0.1
+	       </if>
+	        <if test="auxiliary !=null">
+	            AND user.auxiliary_rate <![CDATA[<=]]>0.1
+	       </if> 
+  		</where> 
+  		order by uuid ASC
+    	limit #{limit} offset #{offset} 
+    	
+    </select>
+     <select id ="coutChooseUser"  parameterType="RecommendSearchCriteria" resultType="java.lang.Integer">
+    	select count(uuid) from user 
+		 
+		<where>
+			uuid not in 
+		 	<foreach item="item" index="index" collection="removeSets" open="(" separator="," close=")">  
+  			#{item} 
+  			</foreach> 
+ 	    	 <if test="sex!=null" > 
+ 	           user.sex=#{sex} 
+	    	</if> 
+	    	 <if test="ageMin!=null">
+	           AND user.age <![CDATA[>=]]> #{ageMin}
+	        </if>
+	        <if test="ageMax !=null">
+	           AND user.age <![CDATA[<=]]> #{ageMax}
+	        </if> 
+	        <if test="trank !=null">
+	            AND user.trank_rate <![CDATA[<=]]>0.1
+	       </if>
+	        <if test="warrior !=null">
+	            AND user.warrior_rate <![CDATA[<=]]>0.1
+	       </if> 
+	       <if test="assassin !=null">
+	            AND user.assassin_rate <![CDATA[<=]]>0.1
+	       </if>
+	        <if test="master !=null">
+	            AND user.master_rate <![CDATA[<=]]>0.1
+	       </if>
+	        <if test="shooter !=null">
+	            AND user.shooter_rate <![CDATA[<=]]>0.1
+	       </if>
+	        <if test="auxiliary !=null">
+	            AND user.auxiliary_rate <![CDATA[<=]]>0.1
+	       </if> 
+  		</where> 
+    </select>
+    
+      <select id ="getGameInform"   resultMap="basicMap">
+    	select 
+    		h.id as hero_id,
+    		time_use,win_rate ,
+    		u.uuid,u.location,u.head_url,u.voice_url,u.age,u.levl,u.star,u.matching,u.qq
+    		from game_inform g 
+    			inner join hero h on h.id=g.hero_id 
+    			right join (
+    			select * from user 
+				where uuid in
+    			 <foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+  					#{item}  
+ 				</foreach> 
+    			) u on g.uuid=u.uuid
+    			 order by u.uuid ASC
+    </select>
+    
+    <select id ="getOwnGameInform" parameterType="java.lang.String" resultMap="basicMap">
+    	
+    	select 
+    		h.id as hero_id,
+    		time_use,win_rate ,
+    		u.uuid,u.location,u.head_url,u.voice_url,u.age,u.levl,u.star,u.matching,u.qq
+    		from game_inform g 
+    			inner join hero h on h.id=g.hero_id 
+    			inner join (select * from  user where uuid=#{uuid}) u on u.uuid=g.uuid
+    			
+    </select>
+	
+	<select id="getUserByOpenId"  resultMap="userMap">
+	   select * from user 
+		where open_id=#{openId}
+	</select>
+	<select id="getUserByUuid" parameterType="java.lang.String" resultMap="userMap">
+	   select * from user 
+		where uuid=#{uuid}
+	</select>
+	
+	<select id="getUserByUuids"  resultMap="ulistMap">
+	   select uuid,name,head_url,sex from user 
+		where uuid in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+  			#{item}  
+ 		</foreach> 
+	</select>
+	<select id="getUserByDUuids"  resultMap="userMap">
+	  select * from user
+		where uuid in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+  			#{item}  
+ 		</foreach> 
+	</select>
+	
+	
+	<insert id="createUser" parameterType="User">
+    	insert into user(uuid,open_id,sex,name,age,place,birthday,location,head_url,voice_url,levl,star,matching,qq,trank_rate,warrior_rate,assassin_rate,master_rate,shooter_rate,auxiliary_rate,images)
+    	values(#{uuid},#{openId},#{sex},#{name},#{age},#{place},#{birthday},#{location},#{headUrl},#{voiceUrl},#{levl},#{star},#{matching},#{qq},#{trankRate},#{warriorRate},#{assassinRate},#{masterRate},#{shooterRate},#{auxiliaryRate},#{images})
+    </insert>
+	
+	<insert id="saveGameInform" parameterType="GameInform">
+		insert into game_inform values(#{uuid},#{hid},#{timeUser},#{winRate},0)
+	</insert>
+	
+	<insert id="updateUser" parameterType="User">
+    	update user 
+    	set open_id=#{openId},
+    	    sex=#{sex},
+    	    name=#{name},
+    	    age=#{place},
+    	    place=#{place},
+    	    birthday=#{birthday},
+    	    location=#{location},
+    	    head_url=#{headUrl},
+    	    voice_url=#{voiceUrl},
+    	    levl=#{levl},
+    	    star=#{star},
+    	    matching=#{matching},
+    	    qq=#{qq},
+    	    trank_rate=#{trankRate},
+    	    warrior_rate=#{warriorRate},
+    	    assassin_rate=#{assassinRate},
+    	    master_rate=#{masterRate},
+    	    shooter_rate=#{shooterRate},
+    	    auxiliary_rate=#{auxiliaryRate},
+    	    images=#{images}
+    	    where uuid=#{uuid}
+    </insert>
+  
+</mapper>

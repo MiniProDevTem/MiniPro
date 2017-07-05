@@ -35,6 +35,12 @@ public class UserController extends AbstractController{
 		return invokeService("user","updateUser",data);
 	}
 	
+	@RequestMapping("/recommend")
+	@ResponseBody
+	public String recommend(@RequestParam(value="data",required=true)String data){
+		return invokeService("user","recommend",data);
+	}
+	
 	@RequestMapping("/mark")
 	@ResponseBody
     @AccessRequired
@@ -78,6 +84,18 @@ public class UserController extends AbstractController{
     @AccessRequired
 	public String delImage(@RequestParam(value="data",required=true)String data){
 		return invokeService("user","delImage",data);
+	}
+	
+	@RequestMapping("/addGInform")
+	@ResponseBody
+	public String addGInform(@RequestParam(value="data",required=true)String data){
+		return invokeService("user","addGInform",data);
+	}
+	
+	@RequestMapping("/addHearOrVoice")
+	@ResponseBody
+	public String addHearOrVoice(@RequestParam(value="data",required=true)String data){
+		return invokeService("user","addHearOrVoice",data);
 	}
 	
 	

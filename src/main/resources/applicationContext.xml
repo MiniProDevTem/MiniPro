@@ -21,8 +21,8 @@
 <bean id="miniContext" class="com.minipro.controller.MiniContext"></bean>
 
 		<context:property-placeholder location="classpath:redis.properties" />
-		
-		 <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+<!-- 		<context:property-placeholder location="classpath:db.properties" />
+ -->		 <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
 	        <property name="maxIdle" value="${redis.maxIdle}"/>
 <!-- 	        <property name="maxActive" value="${redis.maxActive}"/>
  	        <property name="maxWait" value="${redis.maxWait}"/>-->
@@ -35,6 +35,37 @@
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"                                   
 	p:connection-factory-ref="connectionFactory" />  
 
+	
+		
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  
+        destroy-method="close">  
+	        <property name="url" value="${mysql.url}" /> 
+	       	<property name="driverClassName" value="${mysql.driver}" />   
+	        <property name="username" value="${mysql.username}" />  
+	        <property name="password" value="${mysql.password}" /> 
+    	</bean>     	
+    	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+	        <property name="dataSource" ref="dataSource" />  
+	        <!-- 自动扫描mapping.xml文件 -->  
+	        <property name="mapperLocations">
+				<list>
+					<value>classpath:mapper/*.xml</value>
+				</list>
+			</property>
+			<property name="typeAliasesPackage"
+				value=" com.minipro.entity, com.minipro.criteria,com.minipro.mapper"><!-- 将这几个类导入，以便可以在xml中访问 -->
+			</property>
+    	</bean>
+		<!-- Mapper接口所在包名，Spring会自动查找其下的类 -->  
+    	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+	        <property name="basePackage" value="com.minipro.mapper" />  
+	        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>  
+    	</bean>
+		
+		<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource" />
+		</bean>
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="messageConverters">
 			<list>
@@ -71,6 +102,17 @@
             </list>
         </property>
     </bean> -->
+    <mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources mapping="/image/**" location="/image/" />
+	
+	<mvc:resources mapping="/js/**" location="/js/" />
+	
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="" />
+		<property name="suffix" value=".jsp" />
+	</bean>
 		<mvc:annotation-driven /><!--开启spring mvc 的自动注解  -->
 		
 		 <context:component-scan base-package="com.minipro" /><!--自动扫描通过@Service等注解标明的bean  -->

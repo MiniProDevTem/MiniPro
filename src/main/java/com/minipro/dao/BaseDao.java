@@ -32,4 +32,6 @@ public interface BaseDao {
 	Set<Object> differ(String key,String otherkey);//交集
 	
 	boolean isExit(String key,String sonkey);
+	
+	Object getRandomFromSet(String key);
 }
