@@ -71,17 +71,17 @@ public class UserService extends AbstractService {
 		rst.fail();
 		
 		if(p==null){
-			rst.fail("参数有误，请检查参数！");
+			rst.fail(ErrorConfig.INVALPARAM,"参数有误","invalid parameter: parameter is null");
 			return rst;
 		}
 		
 		User user=userMapper.getUserByUuid(p.getUuid());
 		if(user==null){
-			rst.fail("该用户不存在");
+			rst.fail(ErrorConfig.USERNOTEXIT,"用户不存在","invalid parameter: uuid is not exit");
 			return rst;
 		}
 	    if(!userMapper.saveGameInform(p)){
-	    	rst.fail("数据保存失败!");
+			rst.fail(ErrorConfig.SERVERERROR,"数据出错","error");
 	    	return rst;
 	    }
 	    
@@ -94,23 +94,28 @@ public class UserService extends AbstractService {
 		rst.fail();
 		
 		if(createUserParam==null){
-			rst.fail();
+			rst.fail(ErrorConfig.INVALPARAM,"参数有误","invalid parameter: parameter is null");
 			return rst;
 		}
-		String uuid=BaseUtil.getUUID();
 		User user=userMapper.getUserByOpenId(createUserParam.getOpenId());
 		if(user!=null){
-			String cause = String.format("user identified by openID: %d is registered, corresponding uuid is %d",createUserParam.getOpenId(),uuid);
+			String cause = String.format("user identified by openID: %d is registered",createUserParam.getOpenId());
 			rst.fail(ErrorConfig.INVALIDPARAM, "用户已经注册", cause);
 			return rst;
 		}
 		
-	   
+		String uuid=BaseUtil.getUUID();
+		user=userMapper.getUserByUuid(uuid);
+		while(user!=null){
+			uuid=BaseUtil.getUUID();
+			user=userMapper.getUserByUuid(uuid);
+		}
+		
 	    user=new User();
 
 	    UpdateUtil.setValues(user, createUserParam);//赋值
 	    user.setUuid(uuid);
-		//此处应该放入到一个事务当中
+
 	    if(!userMapper.createUser(user)){
 	    	rst.fail("数据保存失败!");
 	    	return rst;

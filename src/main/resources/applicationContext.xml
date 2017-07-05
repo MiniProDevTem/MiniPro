@@ -21,11 +21,11 @@
 <bean id="miniContext" class="com.minipro.controller.MiniContext"></bean>
 
 		<context:property-placeholder location="classpath:redis.properties" />
-<!-- 		<context:property-placeholder location="classpath:db.properties" />
- -->		 <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+<!-- 		<context:property-placeholder location="classpath:db.properties" />-->
+ 		 <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
 	        <property name="maxIdle" value="${redis.maxIdle}"/>
-<!-- 	        <property name="maxActive" value="${redis.maxActive}"/>
- 	        <property name="maxWait" value="${redis.maxWait}"/>-->
+	        <property name="maxActive" value="${redis.maxActive}"/>
+ 	        <property name="maxWait" value="${redis.maxWait}"/>
 	        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
     	</bean>
 

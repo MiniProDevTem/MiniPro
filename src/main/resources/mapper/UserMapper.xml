@@ -58,6 +58,10 @@
     	 <result column="head_url" property="headUrl" />
     </resultMap>
     
+    <resultMap id="calcuMap" type="Calcular">
+    	<result column="location" property="location" />
+    	 <result column="time" property="time" />
+    </resultMap>
     
     <select id="countHero" resultType="java.lang.Integer" >
     	select cout(*) from hero
@@ -198,6 +202,9 @@
  		</foreach> 
 	</select>
 	
+	<select id="calcuDate" resultMap="calcuMap" parameterType="java.lang.String">
+		select location,sum(time_use) as time from game_inform g ,hero h where g.hero_id=h.id and uuid=#{uuid} group by location  
+	</select>
 	
 	<insert id="createUser" parameterType="User">
     	insert into user(uuid,open_id,sex,name,age,place,birthday,location,head_url,voice_url,levl,star,matching,qq,trank_rate,warrior_rate,assassin_rate,master_rate,shooter_rate,auxiliary_rate,images)
@@ -207,6 +214,11 @@
 	<insert id="saveGameInform" parameterType="GameInform">
 		insert into game_inform values(#{uuid},#{hid},#{timeUser},#{winRate},0)
 	</insert>
+	
+	<insert id="insertHero" parameterType="Hero" useGeneratedKeys="true" keyProperty="id">
+		insert into hero(name,location) values(#{hname},#{location})
+	</insert>
+	
 	
 	<insert id="updateUser" parameterType="User">
     	update user 

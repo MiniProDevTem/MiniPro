@@ -3,6 +3,7 @@ package com.minipro.mapper;
 import java.util.List;
 
 import com.minipro.criteria.RecommendSearchCriteria;
+import com.minipro.entity.Calcular;
 import com.minipro.entity.GameInform;
 import com.minipro.entity.Hero;
 import com.minipro.entity.SUser;
@@ -37,4 +38,8 @@ public interface UserMapper {
 	
 	public boolean saveGameInform(GameInform gif);
 	
+	public boolean insertHero(Hero hero);
+	
+	public List<Calcular> calcuDate(String uuid);
+		
 }

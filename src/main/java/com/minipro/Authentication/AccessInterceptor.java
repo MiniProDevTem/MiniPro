@@ -46,8 +46,8 @@ public class AccessInterceptor extends HandlerInterceptorAdapter{
             }
 
             String accessToken = accessTokenOp.get();
-            String token_acess = "6626EA4D059440FAF595C205226726BE";
-            String url = String.format("https://graph.qq.com/oauth2.0/me?access_token=%s",token_acess);
+//            String token_acess = "6626EA4D059440FAF595C205226726BE";
+            String url = String.format("https://graph.qq.com/oauth2.0/me?access_token=%s",accessToken);
             try {
                 HttpsClient client = new HttpsClient();
                if(client.get(url).contains("openid")) {

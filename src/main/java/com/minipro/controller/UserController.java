@@ -16,6 +16,7 @@ public class UserController extends AbstractController{
 
 	@RequestMapping("/isExit")
 	@ResponseBody
+	@AccessRequired
 	public String isExit(@RequestParam(value="openId",required=true)String openId){
 		String data="{\"openId\":\""+openId+"\"}";
 		return invokeService("user","isExit",data);

@@ -78,6 +78,7 @@ uudi:<input type="text" id="comuuid" ><br>
 sex:<input type="text" id="comsex"><br>
 ageMin:<input type="text" id="comageMin"><br>
 ageMax:<input type="text" id="comageMax"><br>
+
 <button id="recommend">点击获得</button></center>
 
 <br>
@@ -90,6 +91,27 @@ heroId:<input type="text" id="giheroId"><br>
 userTime:<input type="text" id="giuserTime"><br>
 winRate:<input type="text" id="giwinRate"><br>
 <button id="giButton">添加</button></center>
+
+<br>
+<br>
+<hr>
+<center>
+<h1>添加英雄</h1>
+hname:<input type="text" id="hname" ><br>
+location:<input type="text" id="location"><br>
+<button id="addHero">添加</button></center>
+
+<br>
+<br>
+<hr>
+<center>
+<h1>添加游戏记录</h1>
+uuid:<input type="text" id="gifuuid" ><br>
+hid:<input type="text" id="gifhid"><br>
+timeUser:<input type="text" id="giftimeUser"><br>
+winRate:<input type="text" id="gifwinRate"><br>
+<button id="addGameInform">添加</button></center>
+
 </body>
 <script>
 
@@ -179,9 +201,7 @@ $("#delete").click(function() {
 $("#recommend").click(function() {
 	var json = {
 		
-		"uuid":$("#comuuid").val(),	
-		
-		"pageNo" : 0
+		"uuid":$("#comuuid").val()
 		
 	};
 	alert(JSON.stringify(json));
@@ -202,6 +222,33 @@ $("#giButton").click(function() {
 		
 	};
 	$.post("http://localhost:8080/MiniPro/user/addGInform", {
+		data : JSON.stringify(json)
+	}, function(json) {
+		alert(JSON.stringify(json));
+	});
+
+});
+
+$("#addHero").click(function() {
+	var json = {
+		"hname":$("#hname").val(),
+		"location":$("#location").val()
+	};
+	$.post("http://localhost:8080/MiniPro/date/addHero", {
+		data : JSON.stringify(json)
+	}, function(json) {
+		alert(JSON.stringify(json));
+	});
+
+});
+$("#addGameInform").click(function() {
+	var json = {
+		"uuid":$("#gifuuid").val(),
+		"hid":$("#gifhid").val(),
+		"timeUser":$("#giftimeUser").val(),
+		"winRate":$("#gifwinRate").val()
+	};
+	$.post("http://localhost:8080/MiniPro/date/addGameInform", {
 		data : JSON.stringify(json)
 	}, function(json) {
 		alert(JSON.stringify(json));

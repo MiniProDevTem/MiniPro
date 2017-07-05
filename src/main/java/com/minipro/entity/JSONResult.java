@@ -3,6 +3,7 @@ package com.minipro.entity;
 import java.text.Format;
 import java.util.HashMap;
 
+import com.minipro.conf.ErrorConfig;
 import com.minipro.util.JsonUtil;
 
 public class JSONResult {
@@ -25,9 +26,9 @@ public class JSONResult {
 		result=FAIL;
 	}
 	
-	public void fail(int errorCode, String simpleMessage, String cause) {
+	public void fail(ErrorConfig errorCode, String simpleMessage, String cause) {
 		result = FAIL;
-		String message = String.format("ErrorCode: %d, %s \n%s",errorCode, simpleMessage, cause);
+		String message = String.format("ErrorCode: %d, %s \n%s",errorCode.getErrorCode(), simpleMessage, cause);
 		this.message=message;
 	}
 	
