@@ -1,10 +1,6 @@
 package com.minipro.controller;
 
-import com.minipro.Authentication.AccessRequired;
-import com.minipro.entity.User;
-import com.minipro.service.UserService;
-import com.minipro.service.param.OpenIDParam;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.minipro.authentication.AccessRequired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

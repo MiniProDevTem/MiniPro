@@ -1,4 +1,4 @@
-package com.minipro.Authentication;
+package com.minipro.authentication;
 
 import com.minipro.conf.ErrorConfig;
 import com.minipro.entity.JSONResult;
@@ -14,7 +14,6 @@ import java.lang.reflect.Method;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -45,9 +44,9 @@ public class AccessInterceptor extends HandlerInterceptorAdapter{
                 return false;
             }
 
-            String accessToken = accessTokenOp.get();
-//            String token_acess = "6626EA4D059440FAF595C205226726BE";
-            String url = String.format("https://graph.qq.com/oauth2.0/me?access_token=%s",accessToken);
+
+            String tokenAccess = accessTokenOp.get();
+            String url = String.format("https://graph.qq.com/oauth2.0/me?access_token=%s",tokenAccess);
             try {
                 HttpsClient client = new HttpsClient();
                if(client.get(url).contains("openid")) {

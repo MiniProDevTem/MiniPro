@@ -122,6 +122,16 @@
 	<mvc:resources mapping="/image/**" location="/image/" />
 	
 	<mvc:resources mapping="/js/**" location="/js/" />
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<ref bean="userAccessInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	<bean id="userAccessInterceptor"
+		  class="com.minipro.authentication.AccessInterceptor">
+	</bean>
 	
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
