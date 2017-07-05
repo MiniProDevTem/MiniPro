@@ -97,7 +97,7 @@ public class UserService extends AbstractService {
 			rst.fail();
 			return rst;
 		}
-		
+		String uuid=BaseUtil.getUUID();
 		User user=userMapper.getUserByOpenId(createUserParam.getOpenId());
 		if(user!=null){
 			String cause = String.format("user identified by openID: %d is registered, corresponding uuid is %d",createUserParam.getOpenId(),uuid);
@@ -105,7 +105,7 @@ public class UserService extends AbstractService {
 			return rst;
 		}
 		
-	    String uuid=BaseUtil.getUUID(createUserParam.getOpenId());
+	   
 	    user=new User();
 
 	    UpdateUtil.setValues(user, createUserParam);//赋值

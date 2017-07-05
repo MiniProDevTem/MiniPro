@@ -31,6 +31,11 @@ public class JSONResult {
 		this.message=message;
 	}
 	
+	public void fail(String message){
+		result=FAIL;
+		this.message=message;
+	}
+	
 	public void success(){
 		result=SUCCESS;
 	}
