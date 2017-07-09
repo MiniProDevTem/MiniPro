@@ -10,6 +10,7 @@ import java.util.Set;
 
 import com.minipro.conf.ErrorConfig;
 
+import com.minipro.util.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,6 @@ import com.minipro.recommend.UserBaseRecommend;
 import com.minipro.service.param.IDParam;
 import com.minipro.service.param.OpenIDParam;
 import com.minipro.service.param.UserServiceParam;
-import com.minipro.util.BaseUtil;
-import com.minipro.util.CosUtil;
-import com.minipro.util.JsonUtil;
-import com.minipro.util.UpdateUtil;
 
 @Service
 public class UserService extends AbstractService {
@@ -55,7 +52,7 @@ public class UserService extends AbstractService {
 			rst.fail(ErrorConfig.INVALIDPARAM,"用户未登录\ninvalid parameter: openid is null");
 			return rst;
 		}
-		System.out.println("openId"+openIdParam.getOpenId());
+		LogUtil.log("openId"+openIdParam.getOpenId());
 		User user=userMapper.getUserByOpenId(openIdParam.getOpenId());
 		if(user==null){
 			rst.success();
@@ -152,7 +149,7 @@ public class UserService extends AbstractService {
 			rst.fail(ErrorConfig.INVALIDPARAM, cause);
 			return rst;
 		}
-		System.out.println(updateUserParam);
+		LogUtil.log(updateUserParam.toString());
 		
 		User user=userMapper.getUserByUuid(updateUserParam.getUuid());
 		if(user==null){//该用户不存在
@@ -163,7 +160,7 @@ public class UserService extends AbstractService {
 				
 	    UpdateUtil.setValues(user, updateUserParam);//赋值
 	    
-	    System.out.println(user);
+	    LogUtil.log(user.toString());
 	    
 	    if(!userMapper.updateUser(user)){
 	    	rst.fail(ErrorConfig.SERVERERROR,"服务器出现错误,用户修改失败！");
@@ -199,7 +196,7 @@ public class UserService extends AbstractService {
 		
 		if(connectSets==null)
 			connectSets=new HashSet<String>();
-		System.out.println("connectSets:"+connectSets);
+		LogUtil.log("connectSets:"+connectSets);
 		if(ulvSets==null)
 			ulvSets=new HashSet<String>();
 		Set<String> ignore=new HashSet<String>();

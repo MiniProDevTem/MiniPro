@@ -1,6 +1,7 @@
 package com.minipro.controller;
 
 import com.minipro.authentication.AccessRequired;
+import com.minipro.util.LogUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +22,7 @@ public class UserController extends AbstractController{
 	@ResponseBody
     @AccessRequired
 	public String create(@RequestParam(value="data",required=true)String data){
-		System.out.println("data:"+data);
+		LogUtil.log("data:"+data);
 		return invokeService("user","createUser",data);
 	}
 	

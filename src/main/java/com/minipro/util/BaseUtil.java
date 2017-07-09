@@ -18,7 +18,7 @@ public class BaseUtil {
 	
 	public static void main(String[] args) {
 		String date="1995/6/20";
-		System.out.println(getMonth(date));
+		LogUtil.log(getMonth(date));
 	}
 	
 	public static String getMonth(String data){

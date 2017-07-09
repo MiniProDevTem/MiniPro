@@ -80,7 +80,6 @@ public class UserBaseRecommend {
 				pq.add(new ItemScore(heroid, score));
 			}
 		}
-//		System.out.println(pq.size());
 		int itemLen = 0;
 		while(itemLen < T && !pq.isEmpty())
 		{
@@ -106,7 +105,6 @@ public class UserBaseRecommend {
 		{
 			Matrix candMatrix = usersInfosMatrix.getMatrix(i, i, 0, userCol - 1);
 			double euclideanDis = getVariantEuclideanDis(curMatrix,candMatrix,weights);
-//			System.out.println(euclideanDis);
 			UserScore item = new UserBaseRecommend.UserScore(i - 1, euclideanDis);
 			pq.add(item);
 		}

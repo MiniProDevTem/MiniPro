@@ -104,7 +104,6 @@
  		<property name="defaultEncoding" value="UTF-8"></property> 
  		<property name="maxUploadSize"><value>10000000</value></property>
  	</bean>
-     <bean id="userAccessInterceptor" class="com.minipro.Authentication.AccessInterceptor"  /> 
      <!-- <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
@@ -138,6 +137,7 @@
 		<property name="prefix" value="" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+
     <mvc:annotation-driven /><!--开启spring mvc 的自动注解  -->
 		
      <context:component-scan base-package="com.minipro" /><!--自动扫描通过@Service等注解标明的bean  -->

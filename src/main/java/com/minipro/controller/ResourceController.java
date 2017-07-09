@@ -5,7 +5,10 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.minipro.util.LogUtil;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.minipro.Authentication.AccessRequired;
+import com.minipro.authentication.AccessRequired;
 import com.minipro.entity.JSONResult;
 import com.minipro.service.UserService;
 import com.minipro.service.param.UserServiceParam;
@@ -25,6 +28,8 @@ import com.minipro.util.CosUtil;
 public class ResourceController extends AbstractController{
 	@Autowired
 	private UserService userService;
+
+	private static final Logger logger = LoggerFactory.getLogger(CosUtil.class);
 	
 	@RequestMapping("/voiceUpload/{uuid}")
 	@ResponseBody
@@ -50,10 +55,10 @@ public class ResourceController extends AbstractController{
 				return rst.toJson();
 			}
 			
-			JSONObject date=obj.getJSONObject("data");
+			JSONObject data = obj.getJSONObject("data");
 			UserServiceParam.HeadOrVoiceParam p =new UserServiceParam.HeadOrVoiceParam();
 			p.setUuid(uuid);
-			p.setUploadUrl(date.getString("access_url"));
+			p.setUploadUrl(data.getString("access_url"));
 			p.setType(1);
 			JSONResult rs=userService.addHearOrVoice(p);
 			if(rs.getMessage().equals("fail")){
@@ -128,9 +133,9 @@ public class ResourceController extends AbstractController{
 	@ResponseBody
 	public String imageUpload(@PathVariable("uuid")String uuid,@RequestParam(value="file",required=false)MultipartFile file,HttpServletRequest request){
 		JSONResult rst=new JSONResult();
-		System.out.println("uuid:"+uuid);
+		LogUtil.log("uuid:"+uuid);
 		
-		System.out.println(uuid);
+		LogUtil.log(uuid);
 		rst.fail();
 		String path = request.getSession().getServletContext().getRealPath("/temp");
 		 String fileName=file.getOriginalFilename();  
@@ -139,7 +144,7 @@ public class ResourceController extends AbstractController{
          if(!targetFile.exists()){  
                targetFile.mkdirs();  
          }  
-         System.out.println("保存成功");
+         LogUtil.log("保存成功");
          try {
 			file.transferTo(targetFile);
 			String result=CosUtil.upload("image", targetFile.getAbsolutePath());

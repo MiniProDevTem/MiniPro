@@ -1,9 +1,9 @@
-package com.minipro.entity;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.minipro.entity.Album;
+import com.minipro.entity.Image;
 
 public class Test {
 	
@@ -26,8 +26,7 @@ public class Test {
 		images.add(image4);
 		album.setImages(images);
 		String s=gson.toJson(album);
-		System.out.println(s);
-		
+
 		 album =(Album) gson.fromJson(s, Album.class);
 		
 		System.out.println(album);
