@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<script src="http://localhost:8080/MiniPro/js/jquery-1.11.3.min.js" ></script>
+<script src="js/jquery-1.11.3.min.js" ></script>
 </head>
 <body>
 
@@ -25,6 +25,21 @@
 	location:<input type="text" id="flocation"><br>
 	qq:<input type="text" id="fqq"><br>
 <button id="clickMe">点击添加</button>
+</center>
+<center>
+<br>
+<br>
+<hr>
+<h1>修改用户</h1>
+	openId:<input type="text" id="fopenId"><br>
+	name:<input type="text" id="fname"><br>
+	place:<input type="text" id="fplace"><br>
+	birthday:<input type="text" id="fbirthday"><br>
+	sex:<input type="text" id="fsex"><br>
+	location:<input type="text" id="flocation"><br>
+	qq:<input type="text" id="fqq"><br>
+<button id="updateUser">点击添加</button>
+
 </center>
 <br>
 <br>
@@ -117,7 +132,7 @@ winRate:<input type="text" id="gifwinRate"><br>
 
 function testIsExit(){
 	var openID=$("#openId").val();
-	$.get("http://localhost:8080/MiniPro/user/isExit?openId="+openID,
+	$.get("usr/isExist?openId="+openID,
 			function(json){
 		alert(JSON.stringify(json));
 	});
@@ -133,7 +148,7 @@ $("#clickMe").click(function() {
 		"location" : $("#flocation").val(),
 		"qq" : $("#fqq").val()
 	};
-	$.post("http://localhost:8080/MiniPro/user/create", {
+	$.post("usr/create", {
 		data : JSON.stringify(json)
 	}, function(json) {
 		alert(JSON.stringify(json));
@@ -141,13 +156,31 @@ $("#clickMe").click(function() {
 
 });
 
+$("#updateUser").click(function() {
+	var json = {
+		"uuid" : $("#fopenId").val(),
+		 "name" : $("#fname").val(),
+		"place" : $("#fplace").val(),
+		"birthday" : $("#fbirthday").val(), 
+		"sex" : $("#fsex").val(),
+		 "location" : $("#flocation").val(),
+		"qq" : $("#fqq").val() 
+	};
+	alert(JSON.stringify(json));
+	$.post("usr/updateInfo", {
+		data : JSON.stringify(json)
+	}, function(json) {
+		alert(JSON.stringify(json));
+	});
+
+});
 $("#mark").click(function() {
 	var json = {
 		"uuid" : $("#muuid").val(),
 		"ouuid" : $("#mouuid").val(),
 		"isLike" : $("#misLike").val()
 	};
-	$.post("http://localhost:8080/MiniPro/user/mark", {
+	$.post("usr/mark", {
 		data : JSON.stringify(json)
 	}, function(json) {
 		alert(JSON.stringify(json));
@@ -157,14 +190,14 @@ $("#mark").click(function() {
  
 function getContact(){
 	var openID=$("#cuuid").val();
-	$.get("http://localhost:8080/MiniPro/user/getContacts?uuid="+openID,
+	$.get("usr/getContacts?uuid="+openID,
 			function(json){
 		alert(JSON.stringify(json));
 	});
 }
 function getContactDetail(){
 	var openID=$("#cduuid").val();
-	$.get("http://localhost:8080/MiniPro/user/contactDetail?uuid="+openID,
+	$.get("usr/contactDetail?uuid="+openID,
 			function(json){
 		alert(JSON.stringify(json));
 	});
@@ -176,7 +209,7 @@ $("#upload").click(function() {
 		"imageUrl" : $("#imUrl").val()
 	};
 	alert(JSON.stringify(json));
-	$.post("http://localhost:8080/MiniPro/user/uploadImage", {
+	$.post("usr/uploadImage", {
 		data : JSON.stringify(json)
 	}, function(json) {
 		alert(JSON.stringify(json));
@@ -190,7 +223,7 @@ $("#delete").click(function() {
 		"imageUrl" : $("#dimUrl").val()
 	};
 	alert(JSON.stringify(json));
-	$.post("http://localhost:8080/MiniPro/user/delImage", {
+	$.post("usr/delImage", {
 		data : JSON.stringify(json)
 	}, function(json) {
 		alert(JSON.stringify(json));
@@ -205,7 +238,7 @@ $("#recommend").click(function() {
 		
 	};
 	alert(JSON.stringify(json));
-	$.post("http://localhost:8080/MiniPro/user/recommend", {
+	$.post("usr/recommend", {
 		data : JSON.stringify(json)
 	}, function(json) {
 		alert(JSON.stringify(json));
@@ -221,7 +254,7 @@ $("#giButton").click(function() {
 		"winRate" : $("#giwinRate").val(),
 		
 	};
-	$.post("http://localhost:8080/MiniPro/user/addGInform", {
+	$.post("usr/addGInform", {
 		data : JSON.stringify(json)
 	}, function(json) {
 		alert(JSON.stringify(json));
@@ -234,7 +267,7 @@ $("#addHero").click(function() {
 		"hname":$("#hname").val(),
 		"location":$("#location").val()
 	};
-	$.post("http://localhost:8080/MiniPro/date/addHero", {
+	$.post("date/addHero", {
 		data : JSON.stringify(json)
 	}, function(json) {
 		alert(JSON.stringify(json));
@@ -248,7 +281,7 @@ $("#addGameInform").click(function() {
 		"timeUser":$("#giftimeUser").val(),
 		"winRate":$("#gifwinRate").val()
 	};
-	$.post("http://localhost:8080/MiniPro/date/addGameInform", {
+	$.post("date/addGameInform", {
 		data : JSON.stringify(json)
 	}, function(json) {
 		alert(JSON.stringify(json));

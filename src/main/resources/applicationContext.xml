@@ -100,15 +100,22 @@
             </list>
         </property>
     </bean> -->
-<!--     <bean id="userAccessInterceptor" class="com.minipro.Authentication.AccessInterceptor"  /> -->
-    
-    <!-- <mvc:interceptors>
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+ 		<property name="defaultEncoding" value="UTF-8"></property> 
+ 		<property name="maxUploadSize"><value>10000000</value></property>
+ 	</bean>
+     <bean id="userAccessInterceptor" class="com.minipro.Authentication.AccessInterceptor"  /> 
+     <!-- <mvc:interceptors>
 		<mvc:interceptor>
-			对所有的请求拦截使用/** ,对某个模块下的请求拦截使用：/myPath/*
 			<mvc:mapping path="/**" />
+			 <mvc:exclude-mapping path="/css/**"/>
+			 <mvc:exclude-mapping path="/js/**"/>
+			  <mvc:exclude-mapping path="/user/isExit*"/>
+			  <mvc:exclude-mapping path="/user/updateInfo*"/>
+			 <mvc:exclude-mapping path="/image/**"/>
 			<ref bean="userAccessInterceptor" />
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors>  -->
     
     <mvc:resources mapping="/css/**" location="/css/" />
 	<mvc:resources mapping="/js/**" location="/js/" />

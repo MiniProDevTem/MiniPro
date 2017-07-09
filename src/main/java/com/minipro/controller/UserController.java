@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller	
-@RequestMapping(value="/user")
+@RequestMapping(value="/usr")
 public class UserController extends AbstractController{
 
-	@RequestMapping("/isExit")
+	@RequestMapping("/isExist")
 	@ResponseBody
-	@AccessRequired
 	public String isExit(@RequestParam(value="openId",required=true)String openId){
 		String data="{\"openId\":\""+openId+"\"}";
 		return invokeService("user","isExit",data);
@@ -25,8 +24,16 @@ public class UserController extends AbstractController{
 	@RequestMapping("/create")
 	@ResponseBody
     @AccessRequired
-	public String createUser(@RequestParam(value="data",required=true)String data){
+	public String create(@RequestParam(value="data",required=true)String data){
+		System.out.println("data:"+data);
 		return invokeService("user","createUser",data);
+	}
+	
+	@RequestMapping("/createUser")
+	@ResponseBody
+    @AccessRequired
+	public String createUser(@RequestParam(value="data",required=true)String data){
+		return invokeService("user","create",data);
 	}
 	
 	@RequestMapping("/updateInfo")
@@ -80,12 +87,7 @@ public class UserController extends AbstractController{
 		return invokeService("user","uploadImage",data);
 	}
 	
-	@RequestMapping("/delImage")
-	@ResponseBody
-    @AccessRequired
-	public String delImage(@RequestParam(value="data",required=true)String data){
-		return invokeService("user","delImage",data);
-	}
+	
 	
 	@RequestMapping("/addGInform")
 	@ResponseBody

@@ -11,6 +11,7 @@ public class JSONResult {
 	final static String LOGIN="login";
 	final static String SUCCESS="success";
 	final static String FAIL="fail";
+	private String errorCode;
 	private HashMap<String,Object> data =new HashMap<String,Object>();
 	private String result=FAIL;
 	private String message;
@@ -26,9 +27,10 @@ public class JSONResult {
 		result=FAIL;
 	}
 	
-	public void fail(ErrorConfig errorCode, String simpleMessage, String cause) {
+	public void fail(ErrorConfig errorCode,String cause) {
 		result = FAIL;
-		String message = String.format("ErrorCode: %d, %s \n%s",errorCode.getErrorCode(), simpleMessage, cause);
+		this.errorCode=String.valueOf(errorCode.getErrorCode());
+		String message = cause;
 		this.message=message;
 	}
 	

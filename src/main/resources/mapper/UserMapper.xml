@@ -26,6 +26,14 @@
         <result column="star" property="star" />
         <result column="matching" property="matching" />
         <result column="qq" property="qq" />
+        <result column="tags" property="tags"/>
+        <result column="is_own" property="isOwn" />
+        <result column="trank_rate" property="trankRate" />
+        <result column="warrior_rate" property="warriorRate" />
+        <result column="assassin_rate" property="assassinRate" />
+        <result column="master_rate" property="masterRate" />
+        <result column="shooter_rate" property="shooterRate" />
+        <result column="auxiliary_rate" property="auxiliaryRate" />
     </resultMap>
   
     <resultMap type="User" id="userMap">
@@ -49,6 +57,7 @@
         <result column="shooter_rate" property="shooterRate" />
         <result column="auxiliary_rate" property="auxiliaryRate" />
         <result column="images" property="images"/>
+        <result column="tags" property="tags"/>
     </resultMap>
     
     <resultMap id="ulistMap" type="SUser">
@@ -148,12 +157,13 @@
 	       </if> 
   		</where> 
     </select>
-    
+   
       <select id ="getGameInform"   resultMap="basicMap">
     	select 
     		h.id as hero_id,
-    		time_use,win_rate ,
-    		u.uuid,u.location,u.head_url,u.voice_url,u.age,u.levl,u.star,u.matching,u.qq
+    		time_use,win_rate,is_own ,
+    		u.uuid,u.sex,u.place,u.age,u.name,u.tags,u.open_id as openId,u.location,u.head_url,u.voice_url,u.age,u.levl,u.star,u.matching,u.qq
+    		,u.warrior_rate,u.trank_rate,u.assassin_rate,u.master_rate,u.shooter_rate,u.auxiliary_rate
     		from game_inform g 
     			inner join hero h on h.id=g.hero_id 
     			right join (
@@ -170,9 +180,10 @@
     	
     	select 
     		h.id as hero_id,
-    		time_use,win_rate ,
-    		u.uuid,u.location,u.head_url,u.voice_url,u.age,u.levl,u.star,u.matching,u.qq
-    		from game_inform g 
+    		time_use,win_rate,is_own ,
+    		u.uuid,u.sex,u.place,u.age,u.name,u.tags,u.open_id as openId,u.location,u.head_url,u.voice_url,u.age,u.levl,u.star,u.matching,u.qq
+    		,u.warrior_rate,u.trank_rate,u.assassin_rate,u.master_rate,u.shooter_rate,u.auxiliary_rate
+    		from game_inform g  
     			inner join hero h on h.id=g.hero_id 
     			inner join (select * from  user where uuid=#{uuid}) u on u.uuid=g.uuid
     			
@@ -207,31 +218,31 @@
 	</select>
 	
 	<insert id="createUser" parameterType="User">
-    	insert into user(uuid,open_id,sex,name,age,place,birthday,location,head_url,voice_url,levl,star,matching,qq,trank_rate,warrior_rate,assassin_rate,master_rate,shooter_rate,auxiliary_rate,images)
-    	values(#{uuid},#{openId},#{sex},#{name},#{age},#{place},#{birthday},#{location},#{headUrl},#{voiceUrl},#{levl},#{star},#{matching},#{qq},#{trankRate},#{warriorRate},#{assassinRate},#{masterRate},#{shooterRate},#{auxiliaryRate},#{images})
+    	insert into user(uuid,open_id,tags,sex,name,age,place,birthday,location,head_url,voice_url,levl,star,matching,qq,trank_rate,warrior_rate,assassin_rate,master_rate,shooter_rate,auxiliary_rate,images)
+    	values(#{uuid},#{openId},#{tags},#{sex},#{name},#{age},#{place},#{birthday},#{location},#{headUrl},#{voiceUrl},#{levl},#{star},#{matching},#{qq},#{trankRate},#{warriorRate},#{assassinRate},#{masterRate},#{shooterRate},#{auxiliaryRate},#{images})
     </insert>
 	
 	<insert id="saveGameInform" parameterType="GameInform">
-		insert into game_inform values(#{uuid},#{hid},#{timeUser},#{winRate},0)
+		insert into game_inform values(#{uuid},#{hid},#{timeUser},#{winRate},#{isOwn})
 	</insert>
 	
 	<insert id="insertHero" parameterType="Hero" useGeneratedKeys="true" keyProperty="id">
 		insert into hero(name,location) values(#{hname},#{location})
 	</insert>
 	
-	
-	<insert id="updateUser" parameterType="User">
-    	update user 
-    	set open_id=#{openId},
-    	    sex=#{sex},
-    	    name=#{name},
-    	    age=#{place},
-    	    place=#{place},
-    	    birthday=#{birthday},
+
+	<update id="updateUser" parameterType="User">
+    	update user  
+    	set 
+    		sex=#{sex} ,
+    		age=#{age},
+    		place=#{place},
+    		birthday=#{birthday},
     	    location=#{location},
     	    head_url=#{headUrl},
     	    voice_url=#{voiceUrl},
     	    levl=#{levl},
+    	    tags=#{tags},
     	    star=#{star},
     	    matching=#{matching},
     	    qq=#{qq},
@@ -242,7 +253,7 @@
     	    shooter_rate=#{shooterRate},
     	    auxiliary_rate=#{auxiliaryRate},
     	    images=#{images}
-    	    where uuid=#{uuid}
-    </insert>
+    	 where uuid=#{uuid}
+    </update>
   
 </mapper>

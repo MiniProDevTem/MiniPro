@@ -47,7 +47,7 @@ public class DateService {
 		}
 		User user=userMapper.getUserByUuid(gif.getUuid());
 		if(user==null){
-			rst.fail(ErrorConfig.USERNOTEXIT,"用户不存在","invalid parameter: uuid is not exit");
+			rst.fail(ErrorConfig.USERNOTEXIT,"用户不存在\n"+"invalid parameter: uuid is not exit");
 			return rst;
 		}
 		

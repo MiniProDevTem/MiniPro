@@ -1,7 +1,11 @@
-/*package com.minipro.recommend;
+package com.minipro.recommend;
 
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+
 
 public class Test {
 	
@@ -19,50 +23,64 @@ public class Test {
 	}
 	static void testRecommendAlgorithm()
 	{
-		int userNum = 11;
-		float[] userHaveHeros = new float[100];//用户已经拥有的英雄
-		float[] userCountOfUseHeros = new float[100];//用户英雄使用的次数
-		float[] userPercentOfWinHeros = new float[100];//每一个英雄胜率
-		float[][] candidateCountOfUseHeros = new float[userNum][100];
-		float[][] candidatePercentOfWinHeros = new float[userNum][100];
+		
+		User[] candidates = new User[100000];
 		Random random = new Random();
-		for(int i = 0 ; i < userNum; i++)
+		for(int i = 0 ; i < candidates.length; i++)
 		{
-			for(int j =0;j < 100;j++)
+			User cand = new User();
+			double[] categoryFeatures = new double[10];
+			double[] numicFeatures = new double[10];
+			for(int j = 0;j < 10;j++)
 			{
 				int count = 0;
 				float per = 0;
 				int bol = random.nextInt(2);
-				
 				if(bol == 1)
 				{
-					count = random.nextInt(1000);
-					per = (float) (random.nextInt(100)*1.0 / 100);
+					count = random.nextInt(100);
+					per = (float) (random.nextInt(10)*1.0 / 10);
 				}
-				candidateCountOfUseHeros[i][j] = count;
-				candidatePercentOfWinHeros[i][j] = per;
+				categoryFeatures[j] = bol;
+				numicFeatures[j] = count;
 			}
+			cand.setCategoryFeatures(categoryFeatures);
+			cand.setNumicFeatures(numicFeatures);
+			candidates[i] = cand;
 		}
-		for(int j =0;j < 100;j++)
+		User user = new User();
+		double[] categoryFeatures = new double[10];
+		double[] numicFeatures = new double[10];
+		for(int j =0;j < 10;j++)
 		{
+			
 			int count = 0;
 			float per = 0;
 			int bol = random.nextInt(2);
 			if(bol == 1)
 			{
-				count = random.nextInt(1000);
-				per = (float) (random.nextInt(100)*1.0 / 100);
+				count = random.nextInt(100);
+				per = (float) (random.nextInt(10)*1.0 / 10);
 			}
-			userCountOfUseHeros[j] = count;
-			userPercentOfWinHeros[j] = per;
-			userHaveHeros[j] = bol;
+			categoryFeatures[j] = bol;
+			numicFeatures[j] = count;
 		}
-		Pair<List<Integer>, List<Integer>> result = UserBaseRecommend.recommend(
-				userHaveHeros, 
-				userCountOfUseHeros, 
-				userPercentOfWinHeros,  
-				candidateCountOfUseHeros, 
-				candidatePercentOfWinHeros);
+		user.setCategoryFeatures(categoryFeatures);
+		user.setNumicFeatures(numicFeatures);
+		List<User> candsAccpeted = new ArrayList<User>();
+		for(int i = 0; i < 5; i++)
+		{
+			candsAccpeted.add(candidates[i]);
+		}
+		user.setCandsAccpeted(candsAccpeted);
+		List<User> candsRejected = new ArrayList<User>();;
+		for(int i = 5; i < 8; i++)
+		{
+			candsRejected.add(candidates[i]);
+		}
+		user.setCandsRejected(candsRejected);
+		Pair<List<Integer>, List<Integer>> result = Recommend.recommend(user, candidates);
+
 		System.out.println(result.first);
 		System.out.println(result.second);
 		
@@ -73,4 +91,3 @@ public class Test {
 	}
 
 }
-*/

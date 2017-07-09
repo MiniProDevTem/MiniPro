@@ -5,6 +5,8 @@ public class UserGameView extends User {
 	private int timeUse;
 	private float winRate; 
 	private int heroId;
+	private String hname;
+	private int isOwn;
 	public int getTimeUse() {
 		return timeUse;
 	}
@@ -22,6 +24,18 @@ public class UserGameView extends User {
 	}
 	public void setHeroId(int heroId) {
 		this.heroId = heroId;
+	}
+	public String getHname() {
+		return hname;
+	}
+	public void setHname(String hname) {
+		this.hname = hname;
+	}
+	public int getIsOwn() {
+		return isOwn;
+	}
+	public void setIsOwn(int isOwn) {
+		this.isOwn = isOwn;
 	}
 	
 	

@@ -39,7 +39,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter{
                     .map(cookie -> cookie.getValue()).findAny();
             if(!accessTokenOp.isPresent()) {
                 JSONResult rst = new JSONResult();
-                rst.fail(ErrorConfig.INVALIDPARAM, "invalid operation", "called method need authentication, " +
+                rst.fail(ErrorConfig.INVALIDPARAM, "invalid operation"+"called method need authentication, " +
                         "no access_token found in cookie");
                 response.getWriter().write(rst.toJson());
                 return false;
@@ -54,11 +54,11 @@ public class AccessInterceptor extends HandlerInterceptorAdapter{
                    return true;
                }
             JSONResult rst = new JSONResult();
-            rst.fail(ErrorConfig.NOTAUTHORIZATION, "未登录", "invalid access_token");
+            rst.fail(ErrorConfig.NOTAUTHORIZATION, "未登录"+"invalid access_token");
             response.getWriter().write(rst.toJson());
             } catch (KeyStoreException | NoSuchAlgorithmException | KeyManagementException ex) {
                 JSONResult rst = new JSONResult();
-                rst.fail(ErrorConfig.INVALIDPARAM, "服务器错误", "can not initialize https connect to " +
+                rst.fail(ErrorConfig.INVALIDPARAM, "服务器错误"+"can not initialize https connect to " +
                         "https://graph.qq.com/oauth2.0/me");
                 response.getWriter().write(rst.toJson());
             }

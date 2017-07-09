@@ -10,7 +10,8 @@ public enum ErrorConfig {
      NOTAUTHORIZATION(20), 
      SERVERERROR(21),
      USERNOTEXIT(31),
-	 INVALPARAM(30);
+	 INVALPARAM(30),
+	 ERROROPERATOR(40);
      private int errorCode;
      
      private ErrorConfig(int errorCode){

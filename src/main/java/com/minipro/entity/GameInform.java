@@ -7,6 +7,8 @@ public class GameInform {
 	private int timeUser;
 	private double winRate;
 	
+	private int isOwn;
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -30,6 +32,12 @@ public class GameInform {
 	}
 	public void setWinRate(double winRate) {
 		this.winRate = winRate;
+	}
+	public int getIsOwn() {
+		return isOwn;
+	}
+	public void setIsOwn(int isOwn) {
+		this.isOwn = isOwn;
 	}
 	
 

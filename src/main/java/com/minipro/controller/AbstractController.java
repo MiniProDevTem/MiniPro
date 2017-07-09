@@ -32,8 +32,8 @@ public class AbstractController {
 		result = invokeLocal(namespace, name, param);
 		if (result==null) {
 			JSONResult rst=new JSONResult();
-			String cause = String.format("nothing return on invoke %s.%s(%s)",namespace, name, param);
-			rst.fail(ErrorConfig.SERVERERROR,"请求失败",cause);
+			String cause = String.format("请求失败 nothing return on invoke %s.%s(%s)",namespace, name, param);
+			rst.fail(ErrorConfig.SERVERERROR,cause);
 			result = rst.toJson();
 		}
 		return result;
@@ -94,7 +94,7 @@ public class AbstractController {
 //				}else{
 					Object p = JsonUtil.toObject(param, clazz);
 					if (p == null){
-						jsonResult.fail(ErrorConfig.INVALIDPARAM,"invalid operation", "invalid request parameters");
+						jsonResult.fail(ErrorConfig.INVALIDPARAM,"invalid operation \ninvalid request parameters");
 						return jsonResult.toJson();
 					}
 					args.add(p);
@@ -112,8 +112,9 @@ public class AbstractController {
 				jsonResult = (JSONResult)method.invoke(service, args.get(0), args.get(1), args.get(2));
 			}
 		} catch (Exception e) {
-			String cause = String.format("call method error,%s", e.toString());
-			jsonResult.fail(ErrorConfig.SERVERERROR,"服务内部错误，请稍后重试", cause);
+			e.printStackTrace();
+			String cause = String.format("服务内部错误，请稍后重试\n call method error,%s",e.getMessage());
+			jsonResult.fail(ErrorConfig.SERVERERROR,cause);
 			return jsonResult.toJson();
 		}
 		return jsonResult.toJson();

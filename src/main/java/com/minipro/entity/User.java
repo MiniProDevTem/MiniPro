@@ -23,6 +23,8 @@ public class User implements Serializable {
     private String matching;
     private String qq;
     
+    private String tags;
+    
     private double trankRate;
     private double warriorRate;
     private double assassinRate;
@@ -32,6 +34,16 @@ public class User implements Serializable {
     
     private String images;
     
+	@Override
+	public String toString() {
+		return "User [uuid=" + uuid + ", openId=" + openId + ", name=" + name + ", place=" + place + ", birthday="
+				+ birthday + ", sex=" + sex + ", location=" + location + ", headUrl=" + headUrl + ", voiceUrl="
+				+ voiceUrl + ", age=" + age + ", levl=" + levl + ", star=" + star + ", matching=" + matching + ", qq="
+				+ qq + ", trankRate=" + trankRate + ", warriorRate=" + warriorRate + ", assassinRate=" + assassinRate
+				+ ", masterRate=" + masterRate + ", shooterRate=" + shooterRate + ", auxiliaryRate=" + auxiliaryRate
+				+ ", images=" + images + "]";
+	}
+
 	public String getOpenId() {
 		return openId;
 	}
@@ -186,5 +198,15 @@ public class User implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	
 	
 }
