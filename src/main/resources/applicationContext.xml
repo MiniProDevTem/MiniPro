@@ -138,9 +138,9 @@
 		<property name="prefix" value="" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-		<mvc:annotation-driven /><!--开启spring mvc 的自动注解  -->
+    <mvc:annotation-driven /><!--开启spring mvc 的自动注解  -->
 		
-		 <context:component-scan base-package="com.minipro" /><!--自动扫描通过@Service等注解标明的bean  -->
+     <context:component-scan base-package="com.minipro" /><!--自动扫描通过@Service等注解标明的bean  -->
 		
-		<context:annotation-config /><!--启动基于注解的自动装配  -->
+    <context:annotation-config /><!--启动基于注解的自动装配  -->
 </beans>
